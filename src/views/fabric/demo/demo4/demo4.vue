@@ -67,7 +67,7 @@
         left: 350,
         top: 260
       })
-      let group = new fabric.Group([triangle1,rect], {
+      let group = new fabric.Group([triangle1,triangle2], {
         left: 100,
         top: 100
       })

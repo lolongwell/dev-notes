@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '知识库',
+  title: '前端笔记',
 
   /**
    * @type {boolean} true | false

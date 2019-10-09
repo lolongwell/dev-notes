@@ -165,6 +165,8 @@ canvas.skipTargetFind = true; 整个画板元素不能被选中
 canvas.freeDrawingBrush.color = "#E34F51" 设置自由绘画笔的颜色
 freeDrawingBrush.width 自由绘笔触宽度
 canvas.preserveObjectStacking = true 在选中对象的时候，不会提高层级而遮挡其他对象
+renderOnAddRemove: false     性能优化
+includeDefaultValues: false  是否保存默认值
 </code></pre>
       <div class="md-section-divider"></div>
       <h3 data-anchor-id="9z4f" id="itext的方法">IText的方法</h3>
