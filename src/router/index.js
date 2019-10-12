@@ -232,6 +232,25 @@ export const constantRoutes = [
   },
 
   {
+    path: '/test',
+    component: Layout,
+    redirect: '/test/test',
+    name: 'Test',
+    meta: {
+      title: '测试',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'test',
+        component: () => import('@/views/test/test'), 
+        name: 'Test',
+        meta: { title: '代码测试' },
+      },
+    ]
+  },
+
+  {
     path: '/nested',
     component: Layout,
     redirect: '/nested/menu1',
