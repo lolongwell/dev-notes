@@ -193,8 +193,14 @@ export const constantRoutes = [
             path: 'demo4',
             component: () => import('@/views/fabric/demo/demo4/demo4'),
             name: 'Demo4',
-            meta: { title: 'demo4' }
-          }
+            meta: { title: 'svg图片转canvas' }
+          },
+          {
+            path: 'demo5',
+            component: () => import('@/views/fabric/demo/demo5/demo5'),
+            name: 'Demo5',
+            meta: { title: '解耦/数据移植' }
+          },
         ]
       },
     ]
@@ -235,7 +241,7 @@ export const constantRoutes = [
     path: '/test',
     component: Layout,
     redirect: '/test/test',
-    name: 'Test',
+    name: 'Tests',
     meta: {
       title: '测试',
       icon: 'nested'

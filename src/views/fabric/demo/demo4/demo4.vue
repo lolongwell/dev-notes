@@ -1,131 +1,96 @@
 <template>
   <div>
-      <canvas id="c"></canvas>
-      <button @click="add">添加</button>
-      <button @click="copy">复制</button>
-      <button @click="hide">隐藏</button>
+    <canvas id="cvs"></canvas>
   </div>
 </template>
+
 <script>
-  let canvas = null
-  let circle
+let c = null
   export default {
-    name: '',
     data() {
       return {
         
       }
     },
     mounted() {
-      canvas = new fabric.Canvas('c', {
-        width: 1000,
-        height: 600,
-        renderOnAddRemove: false,
-        includeDefaultValues: false   // 不保存默认属性
+      c = new fabric.Canvas('cvs', {
+        // renderOnAddRemove: false
       })
-      
-      var rect = new fabric.Rect({
-        width: 350,
-        height: 300,
-        fill: 'yellow'
-      })
-      let triangle1 = new fabric.Triangle({
-        width: 80,
-        height: 80,
-        fill: 'yellow',
-        originX: 'center',
-        originY: 'center',
-        angle: 180,
-        left: 0,
-        top: 40
-      })
-      let triangle2 = new fabric.Triangle({
-        width: 80,
-        height: 80,
-        fill: 'yellow',
-        originX: 'center',
-        originY: 'center',
-        left: 0,
-        top: 260
-      })
-      let triangle3 = new fabric.Triangle({
-        width: 80,
-        height: 80,
-        fill: 'yellow',
-        originX: 'center',
-        originY: 'center',
-        angle: 180,
-        left: 350,
-        top: 40
-      })
-       let triangle4 = new fabric.Triangle({
-        width: 80,
-        height: 80,
-        fill: 'yellow',
-        originX: 'center',
-        originY: 'center',
-        left: 350,
-        top: 260
-      })
-      let group = new fabric.Group([triangle1,triangle2], {
-        left: 100,
-        top: 100
-      })
-      canvas.add(group)
-      canvas.renderAll()
-    },
-    methods: {
-      add() {
-         var rect = new fabric.Rect({
-          width: 200,
-          height: 200,
-          left: 200,
-          top: 200,
-          fill: 'blue',
-          name: '99999'
-        })
-        var text = new fabric.Text('测试', {
-          fill: 'red',
-          fontSize: 30,
-          left: 200,
-          top: 200
-        })
-        canvas.add(rect)
-        canvas.renderAll()
-      },
-      copy() {
-        canvas.getActiveObject().clone(function(cloned) {
-          if (cloned.type == 'activeSelection') {
-            cloned.canvas = canvas
-            cloned.forEachObject(obj => {
-              canvas.add(obj)
-            })
+      fabric.loadSVGFromURL('/maps/b8-3.svg', (objs, opts) => {
+        // console.log(objs)
+        console.log(opts)
+        c.setWidth(opts.width)
+        c.setHeight(opts.height)
+        // const obj = fabric.util.groupSVGElements(objs, opts)
+
+        let bgGroup = []
+        objs.forEach(obj => {
+          if (!obj.stroke || obj.stroke != '#999799') {
+           bgGroup.push(obj)
           } else {
-            canvas.add(cloned)
+            c.add(obj)
+            obj.set({
+              stroke: '#333333',
+              fill: '#f2ade4'
+            })
           }
         })
-
+        let bg = fabric.util.groupSVGElements(bgGroup, opts)
+        bg.set({
+          selectable: false
+        })
+        c.add(bg)
+        bg.moveTo(0)
+        c.renderAll()
+      })
+      this.events()
+    },
+    methods: {
+      events() {
+        let isDragging = false
+        c.on({
+          'mouse:wheel': e => {
+            if (e.e.ctrlKey) {
+              e.e.preventDefault()
+              const deltaY = e.e.deltaY
+              const newZoom = deltaY > 0 ? 0.1 : -0.1
+              this.setZoom(newZoom, {x: e.e.offsetX, y: e.e.offsetY})
+            }
+          },
+          'mouse:down': e => {
+            let selections = c.getActiveObjects()
+            if (selections.length == 0 && !e.e.shiftKey) {
+              isDragging = true
+              c.selection = false
+            }
+          },
+          'mouse:move': e => {
+            if (isDragging) {
+              let delta = new fabric.Point(e.e.movementX, e.e.movementY)
+              c.relativePan(delta)
+            }
+          },
+          'mouse:up': e => {
+            if (isDragging) {
+              isDragging = false
+              c.selection = true
+            }
+          },
+          'mouse:dblclick': e => {
+            console.log(e)
+            // if ()
+          }
+        })
       },
-      hide() {
-        // rect.visible = !rect.visible
-        circle.set({visible: !circle.visible})
-        canvas.renderAll()
+      setZoom(zoom, point) {
+        const newZoom = c.getZoom() + zoom
+        if (newZoom < 0.1) return
+        c.zoomToPoint(point, newZoom)
       }
     }
   }
 </script>
 
-<style scoped>
-  * {
-    margin: 0;
-    padding: 0;
-  }
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-  }
-  canvas {
-    border: 1px solid #999;
-  }
+<style lang="" scoped>
+  
 </style>
