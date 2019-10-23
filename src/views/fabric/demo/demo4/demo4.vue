@@ -18,22 +18,32 @@ let c = null
       })
       fabric.loadSVGFromURL('/maps/b8-3.svg', (objs, opts) => {
         // console.log(objs)
-        console.log(opts)
+        // console.log(opts)
         c.setWidth(opts.width)
         c.setHeight(opts.height)
         // const obj = fabric.util.groupSVGElements(objs, opts)
+        // c.add(obj)
 
         let bgGroup = []
-        objs.forEach(obj => {
+        let stations = []
+        objs.forEach((obj, i) => {
           if (!obj.stroke || obj.stroke != '#999799') {
            bgGroup.push(obj)
           } else {
-            c.add(obj)
-            obj.set({
-              stroke: '#333333',
-              fill: '#f2ade4'
-            })
+            console.log(obj.type,obj.width)
+            if (obj.type == 'rect' && (obj.width == 1.9 || obj.width == 11.2)) {
+              stations.push([objs[i-2], objs[i-1], obj])
+            }
+            // c.add(obj)
+            // obj.set({
+            //   stroke: '#333333',
+            //   fill: '#f2ade4'
+            // })
           }
+        })
+        stations.forEach(v => {
+          let group = new fabric.Group(v)
+          c.add(group)
         })
         let bg = fabric.util.groupSVGElements(bgGroup, opts)
         bg.set({
@@ -53,7 +63,7 @@ let c = null
             if (e.e.ctrlKey) {
               e.e.preventDefault()
               const deltaY = e.e.deltaY
-              const newZoom = deltaY > 0 ? 0.1 : -0.1
+              const newZoom = deltaY > 0 ? -0.1 : 0.1
               this.setZoom(newZoom, {x: e.e.offsetX, y: e.e.offsetY})
             }
           },
