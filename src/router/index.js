@@ -234,6 +234,12 @@ export const constantRoutes = [
         name: 'imgToMap',
         meta: { title: '图片转成地图' },
       },
+      {
+        path: 'readfile',
+        component: () => import('@/views/others/readfile/readfile'), 
+        name: 'readfiel',
+        meta: { title: '读取文件' },
+      },
     ]
   },
 
