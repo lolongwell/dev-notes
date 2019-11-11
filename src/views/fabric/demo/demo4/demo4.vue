@@ -16,41 +16,67 @@ let c = null
       c = new fabric.Canvas('cvs', {
         // renderOnAddRemove: false
       })
-      fabric.loadSVGFromURL('/maps/b8-3.svg', (objs, opts) => {
+      /**
+       * 通过在特殊形状后加上文字标记，识别有效形状（这里标记R/L/C/M）
+       */
+      fabric.loadSVGFromURL('/maps/B8二楼测试版_画板 1.svg', (objs, opts) => {
         // console.log(objs)
         // console.log(opts)
         c.setWidth(opts.width)
         c.setHeight(opts.height)
         // const obj = fabric.util.groupSVGElements(objs, opts)
         // c.add(obj)
-
-        let bgGroup = []
-        let stations = []
+        let inoperableObjs = []
         objs.forEach((obj, i) => {
           if (!obj.stroke || obj.stroke != '#999799') {
-           bgGroup.push(obj)
+            inoperableObjs.push(obj)
           } else {
-            console.log(obj.type,obj.width)
-            if (obj.type == 'rect' && (obj.width == 1.9 || obj.width == 11.2)) {
-              stations.push([objs[i-2], objs[i-1], obj])
+            obj.set({
+              stroke: '#333333',
+              fill: '#e6e6e6'
+            })
+            if (objs[i+1].type == 'text') {
+              switch (objs[i+1].text) {
+                case 'R':
+                  objs[i+1].text = ''
+                  let stationRect = new fabric.Group([obj,objs[i+1]], {
+                    modelType: 'station-rect'
+                  })
+                  c.add(stationRect)
+                  break
+                case 'L':
+                  objs[i+1].text = ''
+                  let stationL = new fabric.Group([obj,objs[i+1]], {
+                    modelType: 'station-L'
+                  })
+                  c.add(stationL)
+                  break
+                case 'C':
+                  objs[i+1].text = ''
+                  let chair = new fabric.Group([obj,objs[i+1]], {
+                    modelType: 'chair'
+                  })
+                  c.add(chair)
+                  break
+                case 'M':
+                  objs[i+1].text = ''
+                  let meetingRoom = new fabric.Group([obj,objs[i+1]], {
+                    modelType: 'meetingRoom'
+                  })
+                  c.add(meetingRoom)
+                  break
+              }
             }
-            // c.add(obj)
-            // obj.set({
-            //   stroke: '#333333',
-            //   fill: '#f2ade4'
-            // })
           }
         })
-        stations.forEach(v => {
-          let group = new fabric.Group(v)
-          c.add(group)
-        })
-        let bg = fabric.util.groupSVGElements(bgGroup, opts)
-        bg.set({
+        let bg = new fabric.Group(inoperableObjs, {
           selectable: false
         })
         c.add(bg)
         bg.moveTo(0)
+        // let zoomPoint = new fabric.Point(c.width / 2 , c.height / 2);
+        // c.zoomToPoint(zoomPoint, scale);
+        // c.absolutePan({x:0, y:0});
         c.renderAll()
       })
       this.events()
