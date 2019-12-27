@@ -205,7 +205,52 @@ export const constantRoutes = [
       },
     ]
   },
-
+  {
+    path: '/features',
+    component: Layout,
+    redirect: '/features/screenfull',
+    name: 'Features',
+    meta: { title: '功能集锦', icon: 'form'},
+    alwaysShow: true,
+    children: [
+      {
+        path: 'screenfull',
+        component: () => import('@/views/features/screenfull'), 
+        name: 'screenfull',
+        meta: { title: '全屏（指定内容）' }
+      },
+      {
+        path: 'svgPanZoom',
+        component: () => import('@/views/features/svgPanZoom'), 
+        name: 'svgPanZoom',
+        meta: { title: 'svg预览手势' }
+      },
+    ]
+  },
+  {
+    path: '/picture',
+    component: Layout,
+    redirect: '/picture/appAdaptation',
+    name: 'Picture',
+    meta: {
+      title: '图片相关',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'appAdaptation',
+        component: () => import('@/views/picture/appAdaptation'), 
+        name: 'appAdaptation',
+        meta: { title: 'App适配问题' },
+      },
+      {
+        path: 'optimization',
+        component: () => import('@/views/picture/optimization'), 
+        name: 'optimization',
+        meta: { title: '优化方案对比' },
+      }
+    ]
+  },
   {
     path: '/others',
     component: Layout,
