@@ -83,7 +83,6 @@ export const constantRoutes = [
       },
     ]
   },
-
   {
     path: '/fabric',
     component: Layout,
@@ -206,6 +205,27 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/threeJS',
+    component: Layout,
+    redirect: '/fabric/demo1',
+    name: 'threeJS',
+    meta: { title: 'threeJS', icon: 'form'},
+    children: [
+      {
+        path: 'demo1',
+        component: () => import('@/views/threeJS/demo1'), 
+        name: 'demo1',
+        meta: { title: '入门1' }
+      },
+      {
+        path: 'demo2',
+        component: () => import('@/views/threeJS/demo2'), 
+        name: 'demo2',
+        meta: { title: '入门2' }
+      },
+    ]
+  },
+  {
     path: '/features',
     component: Layout,
     redirect: '/features/screenfull',
@@ -214,10 +234,16 @@ export const constantRoutes = [
     alwaysShow: true,
     children: [
       {
-        path: 'screenfull',
-        component: () => import('@/views/features/screenfull'), 
-        name: 'screenfull',
-        meta: { title: '全屏（指定内容）' }
+        path: 'screenfullNative',
+        component: () => import('@/views/features/screenfullNative'), 
+        name: 'screenfullNative',
+        meta: { title: '全屏（原生版）' }
+      },
+      {
+        path: 'screenfullPlugin',
+        component: () => import('@/views/features/screenfullPlugin'), 
+        name: 'screenfullPlugin',
+        meta: { title: '全屏（插件版）' }
       },
       {
         path: 'svgPanZoom',
