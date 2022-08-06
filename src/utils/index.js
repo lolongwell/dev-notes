@@ -108,3 +108,14 @@ export function param2Obj(url) {
       '"}'
   )
 }
+
+// 常用功能 2020.04.20============================================================
+// 1、类型判断
+export function type(obj) {
+  let class2Type = {}
+  'Array Date RegExp Object Error'.split(' ').forEach(v => {
+    class2Type['[object ' + v + ']'] = v.toLowerCase()
+  })
+  if (obj == null) return String(obj)
+  return typeof obj === 'object' ? class2Type[Object.prototype.toString.call(obj)] || 'object' : typeof obj
+}

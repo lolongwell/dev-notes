@@ -167,36 +167,36 @@ export const constantRoutes = [
       {
         path: 'demo',
         name: 'Demo',
-        component: () => import('@/views/fabric/demo/demo'),
+        component: () => import('@/views/fabric/demo'),
         meta: { title: '示例' },
         children: [
           {
             path: 'demo1',
-            component: () => import('@/views/fabric/demo/demo1/demo1'),
+            component: () => import('@/views/fabric/demo/demo1'),
             name: 'Demo1',
             meta: { title: '层级相关' }
           },
           {
             path: 'demo2',
-            component: () => import('@/views/fabric/demo/demo2/demo2'),
+            component: () => import('@/views/fabric/demo/demo2'),
             name: 'Demo2',
             meta: { title: '事件相关' }
           },
           {
             path: 'demo3',
-            component: () => import('@/views/fabric/demo/demo3/demo3'),
+            component: () => import('@/views/fabric/demo/demo3'),
             name: 'Demo3',
             meta: { title: '自定义属性' }
           },
           {
             path: 'demo4',
-            component: () => import('@/views/fabric/demo/demo4/demo4'),
+            component: () => import('@/views/fabric/demo/demo4'),
             name: 'Demo4',
             meta: { title: 'svg图片转canvas' }
           },
           {
             path: 'demo5',
-            component: () => import('@/views/fabric/demo/demo5/demo5'),
+            component: () => import('@/views/fabric/demo/demo5'),
             name: 'Demo5',
             meta: { title: '解耦/数据移植' }
           },

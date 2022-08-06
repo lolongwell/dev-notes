@@ -21,7 +21,7 @@
     },
     mounted() {
       // this.initZoomPan()
-      this.initZoomPan1()
+      // this.initZoomPan1()
     },
     methods: {
       /**
